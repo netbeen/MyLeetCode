@@ -16,34 +16,34 @@ using namespace std;
 class Solution {
 public:
 	int lengthOfLastWord(const char *s) {
-	    const int n = strlen(s);
-	    int length = 0;
-
-	    for(int i = 0; i < n; ++i){
-	        if(s[i] != ' ') length++;
-	        else if(i+1 < n && s[i+1] != ' ') length = 0;
-	    }
-	    return length;
-	}
-
-	int lengthOfLastWord2(const char *s) {
-		int recentSpace = -1;
+		bool valid = false;
+		int lastLen = 0;
 		int charIndex = 0;
-		while (s[charIndex] != 0) {
+		while (s[charIndex] != '\0') {
 			if (s[charIndex] == ' ') {
-				recentSpace = charIndex;
+				if(valid == true){
+					valid = false;
+				}
+			}else{
+				if(valid == false){
+					lastLen = 0;
+					valid = true;
+				}
+				lastLen++;
 			}
 			charIndex++;
 		}
-		return charIndex - recentSpace - 1;
+		return lastLen;
 	}
 };
 
 int main() {
 	Solution s;
 	cout << s.lengthOfLastWord("") << endl;
-	cout << s.lengthOfLastWord("a") << endl;
+	cout << s.lengthOfLastWord("a ") << endl;
 	cout << s.lengthOfLastWord("Hello") << endl;
 	cout << s.lengthOfLastWord("Hello world") << endl;
+	cout << s.lengthOfLastWord("Hello world Hello world!") << endl;
 	return 0;
 }
+
